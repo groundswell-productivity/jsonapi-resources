@@ -270,6 +270,10 @@ module JSONAPI
             safe_run_callback(callback, e)
           }
 
+          # Store exception for other middlewares
+          # https://github.com/cerebris/jsonapi-resources/pull/994/files#diff-9e01d101f046eabbc946b5198f01bae6
+          request.env['action_dispatch.exception'] ||= e
+
           internal_server_error = JSONAPI::Exceptions::InternalServerError.new(e)
           Rails.logger.error { "Internal Server Error: #{e.message} #{e.backtrace.join("\n")}" }
           render_errors(internal_server_error.errors)
