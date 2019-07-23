@@ -1279,7 +1279,7 @@ module JSONAPI
           quoted_column = conn.quote_column_name(attr.name)
           Arel.sql("#{quoted_table}.#{quoted_column}")
         end
-        relation.pluck(*quoted_attrs)
+        relation.reorder(nil).pluck(*quoted_attrs)
       end
     end
   end
